@@ -1,0 +1,94 @@
+{
+  "name": "userscript-metadata-webpack-plugin",
+  "version": "0.4.2",
+  "description": "A webpack plugin to generate userscript metadata and prepend to js",
+  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "files": [
+    "./dist/",
+    "./src/",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "useTabs": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "endOfLine": "lf",
+    "semi": true
+  },
+  "packageManager": "yarn@4.18.1",
+  "scripts": {
+    "format": "prettier --list-different -w ./",
+    "prepublishOnly": "npm run build",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "test": "yarn build && webpack -c example/webpack.config.prod.js",
+    "prepare": "husky install",
+    "lint": "eslint --ext ts ./",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{cjs,mjs,js,jsx,ts,tsx,json,yml,yaml}": [
+      "prettier --ignore-path ./.prettierignore --write "
+    ]
+  },
+  "repository": {
+    "url": "https://github.com/Trim21/userscript-metadata-webpack-plugin",
+    "type": "git"
+  },
+  "keywords": [
+    "webpack",
+    "userscript",
+    "plugin",
+    "metadata"
+  ],
+  "author": {
+    "name": "Trim21",
+    "email": "trim21me@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "^26.0.0",
+    "@types/webpack-sources": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "8.72.1",
+    "@typescript-eslint/parser": "8.72.1",
+    "@typescript-eslint/utils": "8.72.1",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-erasable-syntax-only": "0.7.2",
+    "eslint-plugin-promise": "7.3.0",
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "eslint-plugin-tsdoc": "0.5.4",
+    "eslint-plugin-unicorn": "76.0.0",
+    "eslint-plugin-unused-imports": "4.4.1",
+    "husky": "^9.0.0",
+    "lint-staged": "^17.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.0.0",
+    "rollup-plugin-node-externals": "^9.0.0",
+    "rollup-plugin-typescript2": "^0.37.0",
+    "typescript": "^6.0.0",
+    "typescript-eslint": "8.72.1",
+    "webpack": "^5.27.0",
+    "webpack-cli": "^7.0.0"
+  },
+  "dependencies": {
+    "userscript-metadata-generator": "^0.2.3"
+  },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  }
+}

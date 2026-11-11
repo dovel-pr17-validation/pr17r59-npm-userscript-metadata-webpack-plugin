@@ -1,0 +1,57 @@
+name: ci
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+      - 'renovate/**'
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-slim
+    needs:
+      - build
+      - lint
+    steps:
+      - run: 'echo 1'
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['24']
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+
+      - run: yarn
+
+      - run: npx tsc
+
+      - run: yarn build
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['24']
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+
+      - run: yarn
+
+      - run: npx prettier --check .
+
+      - run: yarn lint

@@ -1,0 +1,31 @@
+pull_request_rules:
+  - name: label conflicts
+    conditions:
+      - conflict
+    actions:
+      label:
+        toggle:
+          - conflict
+
+  - name: Automatic merge on approval
+    conditions:
+      - or:
+          - '#approved-reviews-by>=1'
+          - label=ci:auto-merge
+      - or:
+          - '- head*=renovate/lockfile-maintenance-*'
+          - 'created-at<=24h ago'
+      - base=master
+      - check-success=check
+    actions:
+      queue:
+        name: renovate
+
+merge_queue:
+  max_parallel_checks: 1
+  queued_label: 'ci:queued'
+  dequeued_label: 'ci:dequeued'
+
+queue_rules:
+  - name: renovate
+    update_method: merge
